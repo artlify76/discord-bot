@@ -22,7 +22,6 @@ ADMIN_IDS = config['admin_ids']
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents, help_command=None)
-tree = app_commands.CommandTree(bot)
 
 client = None
 try:
@@ -120,10 +119,10 @@ async def on_ready():
     global user_containers
     init_db()
     user_containers = load_containers()
-    await tree.sync()
+    await bot.tree.sync()
     print(f'{bot.user} has connected to Discord!')
     print(f'Loaded {len(user_containers)} containers from database')
-    print(f'Synced {len(tree.get_commands())} slash commands')
+    print(f'Synced {len(bot.tree.get_commands())} slash commands')
 
 @bot.event
 async def on_member_remove(member):
@@ -371,8 +370,6 @@ async def unblacklist_user(interaction: discord.Interaction, user: discord.User)
         await interaction.followup.send(f'{user.mention} has been unblacklisted.')
     except Exception as e:
         await interaction.followup.send(f'Error unblacklisting user: {str(e)}')
-
-bot.tree = tree
 
 if __name__ == '__main__':
     if not DISCORD_TOKEN:
