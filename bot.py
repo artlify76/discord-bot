@@ -18,6 +18,7 @@ IMAGE_NAME = config['image_name']
 CPU_LIMIT = config['cpu_limit']
 MEMORY_LIMIT = config['memory_limit']
 ADMIN_IDS = config['admin_ids']
+GUILD_ID = config.get('guild_id')
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -172,7 +173,7 @@ def get_container_urls(container):
         print(f"Error extracting URLs: {e}")
         return None, None
 
-@bot.tree.command(name='create', description='Create a new container')
+@bot.tree.command(name='create', description='Create a new container', guild=discord.Object(id=GUILD_ID) if GUILD_ID else None)
 @app_commands.checks.cooldown(1, 10)
 async def create_container(interaction: discord.Interaction):
     await interaction.response.defer(thinking=True)
