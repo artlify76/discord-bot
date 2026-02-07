@@ -172,7 +172,7 @@ def get_container_urls(container):
         print(f"Error extracting URLs: {e}")
         return None, None
 
-@app_commands.command(name='create', description='Create a new container')
+@bot.tree.command(name='create', description='Create a new container')
 @app_commands.checks.cooldown(1, 10)
 async def create_container(interaction: discord.Interaction):
     await interaction.response.defer(thinking=True)
@@ -228,15 +228,15 @@ async def create_container(interaction: discord.Interaction):
     except Exception as e:
         await interaction.followup.send(f'{interaction.user.mention}, failed to create container: {str(e)}')
 
-@app_commands.command(name='start', description='Temporarily disabled')
+@bot.tree.command(name='start', description='Temporarily disabled')
 async def start_container(interaction: discord.Interaction):
     await interaction.response.send_message(f'{interaction.user.mention}, the `/start` command has been temporarily disabled.')
 
-@app_commands.command(name='stop', description='Temporarily disabled')
+@bot.tree.command(name='stop', description='Temporarily disabled')
 async def stop_container(interaction: discord.Interaction):
     await interaction.response.send_message(f'{interaction.user.mention}, the `/stop` command has been temporarily disabled.')
 
-@app_commands.command(name='delete', description='Delete your container')
+@bot.tree.command(name='delete', description='Delete your container')
 async def delete_container(interaction: discord.Interaction):
     await interaction.response.defer(thinking=True)
     user_id = str(interaction.user.id)
@@ -262,7 +262,7 @@ async def delete_container(interaction: discord.Interaction):
     except Exception as e:
         await interaction.followup.send(f'{interaction.user.mention}, failed to delete container: {str(e)}')
 
-@app_commands.command(name='status', description='Check your container status')
+@bot.tree.command(name='status', description='Check your container status')
 async def status_container(interaction: discord.Interaction):
     await interaction.response.defer(thinking=True)
     user_id = str(interaction.user.id)
@@ -292,7 +292,7 @@ async def status_container(interaction: discord.Interaction):
     except Exception as e:
         await interaction.followup.send(f'{interaction.user.mention}, failed to get container status: {str(e)}')
 
-@app_commands.command(name='help', description='Show available commands')
+@bot.tree.command(name='help', description='Show available commands')
 async def help_command(interaction: discord.Interaction):
     user_id = str(interaction.user.id)
     is_user_admin = is_admin(user_id)
@@ -329,7 +329,7 @@ async def help_command(interaction: discord.Interaction):
     
     await interaction.response.send_message(embed=embed)
 
-@app_commands.command(name='blacklist', description='[ADMIN] Blacklist a user')
+@bot.tree.command(name='blacklist', description='[ADMIN] Blacklist a user')
 @app_commands.describe(user='The user to blacklist', reason='Reason for blacklist')
 async def blacklist_user(interaction: discord.Interaction, user: discord.User, reason: str = ''):
     await interaction.response.defer(thinking=True)
@@ -354,7 +354,7 @@ async def blacklist_user(interaction: discord.Interaction, user: discord.User, r
     except Exception as e:
         await interaction.followup.send(f'Error blacklisting user: {str(e)}')
 
-@app_commands.command(name='unblacklist', description='[ADMIN] Unblacklist a user')
+@bot.tree.command(name='unblacklist', description='[ADMIN] Unblacklist a user')
 @app_commands.describe(user='The user to unblacklist')
 async def unblacklist_user(interaction: discord.Interaction, user: discord.User):
     await interaction.response.defer(thinking=True)
