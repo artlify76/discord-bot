@@ -1,0 +1,6 @@
+config.json
+containers.db
+__pycache__/
+*.pyc
+*.log
+.DS_Store

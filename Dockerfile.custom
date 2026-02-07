@@ -1,0 +1,18 @@
+FROM ghcr.io/boldsoftware/exeuntu:main-81b3e71
+
+RUN apt-get update && apt-get install -y \
+    tmate \
+    sshx \
+    openssh-client \
+    curl \
+    ca-certificates \
+    systemd \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN ssh-keygen -q -t rsa -N '' -f /root/.ssh/id_rsa
+
+RUN mkdir -p /etc/systemd/system && printf '[Unit]\nDescription=Tmate Session\nAfter=network.target\n\n[Service]\nType=simple\nExecStart=/bin/bash -c "tmate -S /tmp/tmate.sock new-session -d && tmate -S /tmp/tmate.sock wait tmate-ready && echo \\"--- TMATE SSH ---\\" && tmate -S /tmp/tmate.sock display -p \\"#{tmate_ssh}\\" && echo \\"--- SSHX URL ---\\" && sshx"\nRestart=always\nUser=root\n\n[Install]\nWantedBy=multi-user.target\n' > /etc/systemd/system/tmate-sshx.service
+
+RUN systemctl enable tmate-sshx.service
+
+ENTRYPOINT ["/sbin/init"]

@@ -1,0 +1,6 @@
+Help me make a Simple Discord bot usign the discord.py (Python)library.
+The bot will create Docker containers for users, which can be accessed by tmate or sshx(web-based SSH terminal)
+the bot will have commands to create, stop, start and delete. the commands ust warn (if you stop/start and you don't have a contaienr , the bot will wanr.
+)
+
+The bot will only make small containers e.g. limited by 0.5 CPU cores and 1 GB of RAM.
